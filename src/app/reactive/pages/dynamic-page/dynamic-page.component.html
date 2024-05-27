@@ -11,7 +11,9 @@
         class="form-control"
         placeholder="Nombre de la persona"
       />
+      @if(isValidField('name')){
       <span class="form-text text-danger"> error message </span>
+      }
     </div>
   </div>
 
@@ -32,22 +34,31 @@
   <!-- Lista de Juegos Favoritos -->
   <div class="mb-3 row">
     <label class="col-sm-3 col-form-label">Favoritos</label>
-    <div class="col-sm-9" formArrayName="favoriteGames">
-      @for( favorite of myForm.get('favoriteGames')?.value; track favorite ) {
-      <div class="mb-1">
-        <div class="input-group">
-          <input
-            formArrayControlName="favoriteGames"
-            value="{{ favorite }}"
-            class="form-control"
-          />
 
-          <button class="btn btn-outline-danger" type="button">Eliminar</button>
-        </div>
-        <span class="form-text text-danger"> Este campo es requerido </span>
+    @for(favorite of myForm.get('favoriteGames')?.value; track favorite ) {
+    <div class="mb-1">
+      <div class="input-group">
+        <input
+          formArrayControlName="favoriteGames"
+          value="{{ favorite }}"
+          class="form-control"
+        />
+
+        <button
+          class="btn btn-outline-danger"
+          (click)="onDeleteFavourtieGame($index)"
+          type="button"
+        >
+          Eliminar
+        </button>
       </div>
+
+      @if(!isValidFieldInArray(myForm.get('favoriteGames')?.value, $index)){
+
+      <span class="form-text text-danger"> Este campo es requerido </span>
       }
     </div>
+    }
   </div>
 
   <div class="row">

@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   templateUrl: './dynamic-page.component.html',
@@ -13,6 +19,11 @@ export class DynamicPageComponent {
       Validators.required
     ),
   });
+
+  public newFavouriteGame: FormControl = new FormControl(
+    '',
+    Validators.required
+  );
   constructor(private fb: FormBuilder) {}
 
   get favouriteGames() {
@@ -55,7 +66,13 @@ export class DynamicPageComponent {
     }
     return isValid;
   }
-
+  onAddToFavourites(): void {
+    if (this.newFavouriteGame.invalid) return;
+    this.favouriteGames.push(
+      this.fb.control(this.newFavouriteGame.value, Validators.required)
+    );
+    this.newFavouriteGame.reset();
+  }
   onDeleteFavourtieGame(i: number) {
     this.favouriteGames.removeAt(i);
   }

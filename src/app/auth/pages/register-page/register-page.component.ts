@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  EmailValidator,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ValidatorsService } from '../../../shared/services/validators.service';
+import { EmailValidatorService } from '../../../shared/validators/email.validator.service';
 
 @Component({
   selector: 'app-register-page',
@@ -23,6 +29,7 @@ export class RegisterPageComponent {
         Validators.required,
         Validators.pattern(this.validatorsService.emailPattern),
       ],
+      [this.emailValidator],
     ],
     username: [
       '',
@@ -37,7 +44,8 @@ export class RegisterPageComponent {
   });
   constructor(
     private fb: FormBuilder,
-    private validatorsService: ValidatorsService
+    private validatorsService: ValidatorsService,
+    private emailValidator: EmailValidatorService
   ) {
     console.log('Register page');
   }

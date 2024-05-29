@@ -14,10 +14,12 @@
             formControlName="name"
             placeholder="Nombre del usuario"
           />
+          @if(isValidField('name')){
 
           <span class="form-text text-danger">
             Debe de ser en formato de nombre y apellido
           </span>
+          }
         </div>
       </div>
 
@@ -31,9 +33,11 @@
             formControlName="email"
             placeholder="Email del usuario"
           />
+          @if(isValidField('email')){
           <span class="form-text text-danger">
             mensaje de error del email
           </span>
+          }
         </div>
       </div>
 
@@ -47,9 +51,11 @@
             formControlName="username"
             placeholder="Nombre código del usuario"
           />
+          @if(isValidField('username')){
           <span class="form-text text-danger">
             El username no puede ser Strider
           </span>
+          }
         </div>
       </div>
 
@@ -63,10 +69,11 @@
             formControlName="password"
             placeholder="Password de su cuenta"
           />
-
+          @if(isValidField('password')){
           <span class="form-text text-danger">
             La contraseña debe de ser mayor de 6 caracteres.
           </span>
+          }
         </div>
       </div>
 
@@ -80,10 +87,11 @@
             formControlName="password2"
             placeholder="Confirmar la contraseña"
           />
-
+          @if(isValidField('password2')){
           <span class="form-text text-danger">
             Las contraseñas deben de ser iguales
           </span>
+          }
         </div>
       </div>
 
@@ -103,10 +111,10 @@
 <pre>{{ "formulario" | json }}</pre>
 
 <h5>Nombre</h5>
-<pre>{{ myForm.value.name | json }}</pre>
+<pre>{{ myForm.controls["name"].errors | json }}</pre>
 
 <h5>Email</h5>
-<pre>{{ myForm.value.email | json }}</pre>
+<pre>{{ myForm.controls["email"].errors | json }}</pre>
 
 <h5>Username</h5>
 <pre>{{ myForm.controls["username"].errors | json }}</pre>

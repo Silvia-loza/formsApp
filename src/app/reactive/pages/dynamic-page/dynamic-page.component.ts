@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 import {
   FormArray,
   FormBuilder,
@@ -24,17 +25,16 @@ export class DynamicPageComponent {
     '',
     Validators.required
   );
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private ValidatorsService: ValidatorsService
+  ) {}
 
   get favouriteGames() {
     return this.myForm.get('favoriteGames') as FormArray;
   }
   isValidField(field: keyof typeof this.myForm.controls): boolean | null {
-    return (
-      this.myForm.controls[field].errors &&
-      this.myForm.controls[field] &&
-      this.myForm.controls[field].touched
-    );
+    return this.ValidatorsService.isValidField(this.myForm, field);
   }
   getFieldError(field: any): any {
     const control = this.myForm.get(field);

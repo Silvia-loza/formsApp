@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 @Component({
   templateUrl: './basic-page.component.html',
@@ -23,15 +24,14 @@ export class BasicPageComponent {
     price: [0, [Validators.required, Validators.min(0)]],
     inStorage: [0, [Validators.required, Validators.min(0)]],
   });
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private validatorService: ValidatorsService
+  ) {}
   ngOnInit() {}
 
   isValidField(field: keyof typeof this.myForm.controls): boolean | null {
-    return (
-      this.myForm.controls[field].errors &&
-      this.myForm.controls[field] &&
-      this.myForm.controls[field].touched
-    );
+    return this.validatorService.isValidField(this.myForm, field);
   }
 
   getFieldError(field: any): any {

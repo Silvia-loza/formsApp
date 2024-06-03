@@ -14,34 +14,47 @@ import { EmailValidatorService } from '../../../shared/validators/email.validato
   styles: ``,
 })
 export class RegisterPageComponent {
-  public myForm: FormGroup = this.fb.group({
-    name: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.pattern(this.validatorsService.firstNameAndLastnamePattern),
+  public myForm: FormGroup = this.fb.group(
+    {
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.pattern(
+            this.validatorsService.firstNameAndLastnamePattern
+          ),
+        ],
       ],
-    ],
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.pattern(this.validatorsService.emailPattern),
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(this.validatorsService.emailPattern),
+        ],
+        [this.emailValidator],
       ],
-      [this.emailValidator],
-    ],
-    username: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(3),
-        this.validatorsService.cantBeStrider,
+      username: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          this.validatorsService.cantBeStrider,
+        ],
       ],
-    ],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    password2: ['', [Validators.required, Validators.minLength(6)]],
-  });
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      password2: ['', [Validators.required, Validators.minLength(6)]],
+    },
+    // passa estas validaciones a nivel de formulario no solo de control
+    {
+      validators: [
+        this.validatorsService.isFiledOneEqualToFieldTwo(
+          'password',
+          'password2'
+        ),
+      ],
+    }
+  );
   constructor(
     private fb: FormBuilder,
     private validatorsService: ValidatorsService,

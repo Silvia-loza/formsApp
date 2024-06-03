@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -13,7 +14,9 @@ export class ValidatorsService {
   public emailPattern: string = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
   constructor(private fb: FormBuilder) {}
 
-  public cantBeStrider = (control: FormControl): ValidationErrors | null => {
+  public cantBeStrider = (
+    control: AbstractControl
+  ): ValidationErrors | null => {
     const value: string = control.value?.trim().toLowerCase();
     if (value === 'strider') {
       return {
@@ -34,5 +37,19 @@ export class ValidatorsService {
       myForm.controls[field] &&
       myForm.controls[field].touched
     );
+  }
+
+  public isFiledOneEqualToFieldTwo(fieldOne: string, fieldTwo: string) {
+    return (formGroup: FormGroup): ValidationErrors | null => {
+      const fieldOneValue = formGroup.controls[fieldOne]?.value || '';
+      const fieldTwoValue = formGroup.controls[fieldTwo]?.value || '';
+      if (fieldOneValue !== fieldTwoValue) {
+        formGroup.get(fieldTwo)?.setErrors({ notEqual: true });
+        return { notEqual: true };
+      }
+
+      formGroup.get(fieldTwo)?.setErrors(null);
+      return null;
+    };
   }
 }
